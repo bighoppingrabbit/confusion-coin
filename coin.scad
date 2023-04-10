@@ -12,10 +12,11 @@ mesh_middle = coin_radius - 8;
 mesh_start = coin_radius - 11.5;
 
 //tuning, bigger values are looser
-outer_finger_offset_from_outer_ring = 0.2;
-inner_finger_offset_from_outer_ring = 0.2;
-inter_finger_angle = 0.4;
+outer_finger_offset_from_outer_ring = 0.1;
+inner_finger_offset_from_outer_ring = 0.1;
+inter_finger_angle = 0.2;
 finger_height_reduction = 0.1;
+dowel_diameter_increase = 0.05;
 
 //actual values
 outer_finger_end = mesh_end - outer_finger_offset_from_outer_ring;
@@ -23,7 +24,8 @@ inner_finger_end = mesh_middle - inner_finger_offset_from_outer_ring;
 
 
 dowel_length = 5;
-dowel_diameter = 1.5;
+dowel_diameter_ideal = 1.5;
+dowel_diameter = dowel_diameter_ideal + dowel_diameter_increase;
 dowel_stickout = 2; //the minimum the dowel should poke out into the outer fingers, when fully sunk into the inner finger
 dower_stickin = dowel_length - dowel_stickout;
 dowel_cavity_length = dowel_length + dower_stickin;
@@ -51,6 +53,8 @@ module mesh_sector() {
 
 
 module coin_half(){
+    union() {
+        
     cylinder(r=coin_radius, h=non_mesh_zone_height, $fn=360);
 
     for (i = [0:(mesh_sectors-1)]) {
@@ -62,6 +66,8 @@ module coin_half(){
     translate([0,0,non_mesh_zone_height]) difference() {
        cylinder(r=coin_radius, h=mesh_zone_height/2, $fn=360);
        cylinder(r=mesh_end, h=mesh_zone_height/2, $fn=360); 
+    }
+    
     }
 }
 
